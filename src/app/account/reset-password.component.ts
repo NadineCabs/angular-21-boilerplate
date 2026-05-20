@@ -17,7 +17,7 @@ export class ResetPasswordComponent implements OnInit {
     TokenStatus = TokenStatus;
     tokenStatus = TokenStatus.Validating;
     token?: string;
-    from!: FormGroup;
+    form!: FormGroup;
     loading = false;
     submitted = false;
 

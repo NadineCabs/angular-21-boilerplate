@@ -5,7 +5,7 @@ import { filter } from 'rxjs/operators';
 import { Alert, AlertOptions, AlertType } from '@app/_models';
 
 @Injectable({ providedIn: 'root' })
-export class AlertSerive {
+export class AlertService {
     private subject = new Subject<Alert>();
     private defaultId = 'default-alert';
 

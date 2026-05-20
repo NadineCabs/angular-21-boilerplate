@@ -7,6 +7,8 @@ import { map, finalize } from 'rxjs/operators';
 import { environment } from '@environments/environment';
 import { Account } from '@app/_models';
 
+const baseUrl = `${environment.apiUrl}/accounts`;
+
 @Injectable({ providedIn: 'root' })
 export class AccountService {
     private accountSubject: BehaviorSubject<Account | null>;
@@ -95,16 +97,16 @@ export class AccountService {
     delete(id: string) {
         return this.http.delete(`${baseUrl}/${id}`)
             .pipe(finalize(() => {
-                if (id === this.accountValue?.id) {
+                // auto logout if the logged in account was deleted
+                if (id === this.accountValue?.id)
                     this.logout();
-                }
             }));
     }
 
     private refreshTokenTimeout: any;
 
     private startRefreshTokenTimer() {
-        const jwtBase64 = this.accountValue!.jwttoken!.split('.')[1];
+        const jwtBase64 = this.accountValue!.jwtToken!.split('.')[1];
         const jwtToken = JSON.parse(atob(jwtBase64));
 
         const expires = new Date(jwtToken.exp * 1000);

@@ -108,12 +108,12 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             if (accounts.find(x => x.email === account.email)) {
                 setTimeout(() => {
-                    alertService.info('
+                    alertService.info(`
                         <h4>Email Already Registered</h4>
                         <p>Your email ${account.email} is already registered.</p>
                         <p>If you don't know your password please visit the <a href="${location.origin}/account/forgot-password">forgot password</a> page.</p>
-                        <div><strong>Note:</strong> The fake backend displayed this "email" so you can test without an api. A real backend would send a real email.</div>
-                    ,   { autoClose: false });
+                        <div><strong>NOTE:</strong> The fake backend displayed this "email" so you can test without an api. A real backend would send a real email.</div>
+                    `,   { autoClose: false });
                 }, 1000);
 
                 return ok();
@@ -125,7 +125,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             } else {
                 account.role = Role.User;
             }
-            account.dateCreated = new Date().toISOString;
+            account.dateCreated = new Date().toISOString();
             account.verificationToken = new Date().getTime().toString();
             account.isVerified = false;
             account.refreshToken = [];
@@ -135,13 +135,13 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             setTimeout(() => {
                 const verifyUrl = `${location.origin}/account/verify-email?token=${account.verificationToken}`;
-                alertService.info('
+                alertService.info(`
                     <h4>Verification Email</h4>
                     <p>Thanks for registering!</p>
                     <p>Please click the below link to verify your email address:</p>
                     <p><a href="${verifyUrl}">${verifyUrl}</a></p>
                     <div><strong>Note:</strong> The fake backend displayed this "email" so you can test without an api. A real backend would send a real email.</div>
-                ,   { autoClose: false });
+                `,   { autoClose: false });
             }, 1000);
 
             return ok();
@@ -352,7 +352,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             const token = new Date().getTime().toString();
 
             const expires = new Date(Date.now() + 7*24*60*60*1000).toUTCString();
-            document.cookie = 'fakeRefreshToken=${token}; expires=${expires}'; path=/';
+            document.cookie = `fakeRefreshToken=${token}; expires=${expires}; path=/`;
 
             return token;
         }

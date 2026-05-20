@@ -3,7 +3,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { finalize, first } from 'rxjs/operators';
 
-import { AccountService, AlertSerive } from '@app/_services';
+import { AccountService, AlertService } from '@app/_services';
 import { MustMatch } from '@app/_helpers';
 
 @Component({ templateUrl: 'add-edit.component.html', standalone: false })
@@ -22,7 +22,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
         private route: ActivatedRoute,
         private router: Router,
         private accountService: AccountService,
-        private alertService: AlertSerive,
+        private alertService: AlertService,
         private cdr: ChangeDetectorRef
     ) { }
 
@@ -106,7 +106,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
         let saveAccount;
         let message: string;
         if (this.id) {
-            saveAccount = this.accountService.update(this.id, this.form.value);
+            saveAccount = () => this.accountService.update(this.id!, this.form.value);
             message = 'Account updated';
         } else {
             saveAccount = () => this.accountService.register(this.form.value);
@@ -119,7 +119,12 @@ export class AddEditComponent implements OnInit, OnDestroy {
                 next: () => {
                     this.alertService.success(message, { keepAfterRouteChange: true });
                     this.router.navigateByUrl('/admin/accounts');
+                },
+                error: error => {
+                    this.alertService.error(error);
+                    this.submitting = false;
+                    this.cdr.detectChanges();
                 }
             });
-        }
+    }
 }

@@ -17,7 +17,7 @@ export class VerifyEmailComponent implements OnInit {
     constructor(
         private route: ActivatedRoute,
         private router: Router,
-        private accoundService: AccountService,
+        private accountService: AccountService,
         private alertService: AlertService
     ) { }
 
