@@ -12,6 +12,7 @@ import { AccountService } from './_services';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
 import { HomeComponent } from './admin/home/home.component';
+import { environment } from '@environments/environment';
 
 @NgModule({
     imports: [
@@ -30,9 +31,10 @@ import { HomeComponent } from './admin/home/home.component';
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
+         ...(environment.production ? [] : [fakeBackendProvider])
+],
         // provider used to create fake backend
         // fakeBackendProvider
-    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }
