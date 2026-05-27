@@ -7,7 +7,7 @@ import { AccountService } from '@app/_services';
 
 @Injectable()
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private accountService: AccountService) {}
+    constructor(private accountService: AccountService) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // add auth header with jwt if account is logged in and request is to the api url

@@ -8,7 +8,7 @@ import { MustMatch } from '@app/_helpers';
 
 @Component({ templateUrl: 'add-edit.component.html', standalone: false })
 export class AddEditComponent implements OnInit, OnDestroy {
-    form!:FormGroup;
+    form!: FormGroup;
     id?: string;
     title!: string;
     loading = false;
@@ -79,7 +79,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
                     }
                 });
         }
-}
+    }
 
     ngOnDestroy() {
         if (this.loadTimeoutId) {
@@ -88,6 +88,7 @@ export class AddEditComponent implements OnInit, OnDestroy {
         }
     }
 
+    // convenience getter for easy access to form fields
     get f() { return this.form.controls; }
 
     onSubmit() {
@@ -96,20 +97,20 @@ export class AddEditComponent implements OnInit, OnDestroy {
 
         this.alertService.clear();
 
-        if(this.form.invalid) {
+        if (this.form.invalid) {
             return;
         }
 
         this.submitting = true;
-        this.cdr.detectChanges();
 
+        // create or update account based on id param
         let saveAccount;
         let message: string;
         if (this.id) {
             saveAccount = () => this.accountService.update(this.id!, this.form.value);
             message = 'Account updated';
         } else {
-            saveAccount = () => this.accountService.register(this.form.value);
+            saveAccount = () => this.accountService.create(this.form.value);
             message = 'Account created';
         }
 

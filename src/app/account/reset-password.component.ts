@@ -12,7 +12,7 @@ enum TokenStatus {
     Invalid
 }
 
-@Component({ templateUrl: 'reset-password.component.html', standalone: false })
+@Component({ templateUrl: 'reset-password.component.html' })
 export class ResetPasswordComponent implements OnInit {
     TokenStatus = TokenStatus;
     tokenStatus = TokenStatus.Validating;
@@ -61,8 +61,10 @@ export class ResetPasswordComponent implements OnInit {
     onSubmit() {
         this.submitted = true;
 
+        // reset alerts on submit
         this.alertService.clear();
 
+        // stop here if form is invalid
         if (this.form.invalid) {
             return;
         }
@@ -80,7 +82,5 @@ export class ResetPasswordComponent implements OnInit {
                     this.loading = false;
                 }
             });
-    
     }
-
 }

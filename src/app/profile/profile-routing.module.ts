@@ -1,9 +1,9 @@
-import { NgModule } from "@angular/core";
-import { Routes, RouterModule, Router } from "@angular/router";
+import { NgModule } from '@angular/core';
+import { Routes, RouterModule } from '@angular/router';
 
-import { LayoutComponent } from "./layout.component";
-import { DetailsComponent } from "./details.component";
-import { UpdateComponent } from "./update.component";
+import { LayoutComponent } from './layout.component';
+import { DetailsComponent } from './details.component';
+import { UpdateComponent } from './update.component';
 
 const routes: Routes = [
     {
@@ -17,6 +17,6 @@ const routes: Routes = [
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],
-    exports: [Router]
+    exports: [RouterModule]
 })
 export class ProfileRoutingModule { }

@@ -30,7 +30,6 @@
                 </div>
             </div>
         </div>
-        
         <div class="mb-3">
             <label class="form-label">Email</label>
             <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" />
@@ -39,7 +38,6 @@
                 <div *ngIf="f.email.errors.email">Email must be a valid email address</div>
             </div>
         </div>
-
         <div class="row">
             <div class="mb-3 col">
                 <label class="form-label">Password</label>
@@ -58,13 +56,11 @@
                 </div>
             </div>
         </div>
-
         <div class="mb-3 form-check">
             <input type="checkbox" formControlName="acceptTerms" id="acceptTerms" class="form-check-input" [ngClass]="{ 'is-invalid': submitted && f.acceptTerms.errors }" />
             <label for="acceptTerms" class="form-check-label">Accept Terms & Conditions</label>
             <div *ngIf="submitted && f.acceptTerms.errors" class="invalid-feedback">Accept Ts & Cs is required</div>
         </div>
-
         <div class="mb-3">
             <button [disabled]="submitting" class="btn btn-primary">
                 <span *ngIf="submitting" class="spinner-border spinner-border-sm me-1"></span>

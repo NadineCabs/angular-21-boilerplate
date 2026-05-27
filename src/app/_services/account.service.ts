@@ -18,7 +18,8 @@ export class AccountService {
         private router: Router,
         private http: HttpClient
     ) {
-        this.accountSubject = new BehaviorSubject<Account | null>(null);
+        const storedAccount = localStorage.getItem('account');
+        this.accountSubject = new BehaviorSubject<Account | null>(storedAccount ? JSON.parse(storedAccount) : null);
         this.account = this.accountSubject.asObservable();
     }
 
@@ -29,6 +30,7 @@ export class AccountService {
     login(email: string, password: string) {
         return this.http.post<any>(`${baseUrl}/authenticate`, { email, password }, { withCredentials: true })
             .pipe(map(account => {
+                localStorage.setItem('account', JSON.stringify(account));
                 this.accountSubject.next(account);
                 this.startRefreshTokenTimer();
                 return account;
@@ -38,6 +40,7 @@ export class AccountService {
     logout() {
         this.http.post<any>(`${baseUrl}/revoke-token`, {}, { withCredentials: true }).subscribe();
         this.stopRefreshTokenTimer();
+        localStorage.removeItem('account');
         this.accountSubject.next(null);
         this.router.navigate(['/account/login']);
     }
@@ -45,6 +48,7 @@ export class AccountService {
     refreshToken() {
         return this.http.post<any>(`${baseUrl}/refresh-token`, {}, { withCredentials: true })
             .pipe(map((account) => {
+                localStorage.setItem('account', JSON.stringify(account));
                 this.accountSubject.next(account);
                 this.startRefreshTokenTimer();
                 return account;
@@ -86,8 +90,11 @@ export class AccountService {
     update(id: string, params: any) {
         return this.http.put(`${baseUrl}/${id}`, params)
             .pipe(map((account: any) => {
+                // update the current account if it was updated
                 if (account.id === this.accountValue?.id) {
+                    // publish updated account to subscribers
                     account = { ...this.accountValue, ...account };
+                    localStorage.setItem('account', JSON.stringify(account));
                     this.accountSubject.next(account);
                 }
                 return account;
@@ -103,12 +110,16 @@ export class AccountService {
             }));
     }
 
-    private refreshTokenTimeout: any;
+    // helper methods
+
+    private refreshTokenTimeout?: any;
 
     private startRefreshTokenTimer() {
+        // parse json object from base64 encoded jwt token
         const jwtBase64 = this.accountValue!.jwtToken!.split('.')[1];
         const jwtToken = JSON.parse(atob(jwtBase64));
 
+        // set a timeout to refresh the token a minute before it expires
         const expires = new Date(jwtToken.exp * 1000);
         const timeout = expires.getTime() - Date.now() - (60 * 1000);
         this.refreshTokenTimeout = setTimeout(() => this.refreshToken().subscribe(), timeout);

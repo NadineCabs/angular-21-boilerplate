@@ -21,7 +21,7 @@ export class UpdateComponent implements OnInit {
         private router: Router,
         private accountService: AccountService,
         private alertService: AlertService
-    ) {}
+    ) { }
 
     ngOnInit() {
         this.account = this.accountService.accountValue!;
@@ -73,7 +73,7 @@ export class UpdateComponent implements OnInit {
             this.accountService.delete(this.account.id!)
                 .pipe(first())
                 .subscribe(() => {
-                        this.alertService.success('Account deleted successfully', { keepAfterRouteChange: true });
+                    this.alertService.success('Account deleted successfully', { keepAfterRouteChange: true });
                 });
         }
     }

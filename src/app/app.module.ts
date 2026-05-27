@@ -11,8 +11,7 @@ import { JwtInterceptor, ErrorInterceptor, appInitializer } from './_helpers';
 import { AccountService } from './_services';
 import { AppComponent } from './app.component';
 import { AlertComponent } from './_components';
-import { HomeComponent } from './admin/home/home.component';
-import { environment } from '@environments/environment';
+import { HomeComponent } from './admin/home';
 
 @NgModule({
     imports: [
@@ -31,10 +30,10 @@ import { environment } from '@environments/environment';
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
-         ...(environment.production ? [] : [fakeBackendProvider])
-],
         // provider used to create fake backend
-        // fakeBackendProvider
+        // use fake backend for local development
+        fakeBackendProvider
+    ],
     bootstrap: [AppComponent]
 })
 export class AppModule { }

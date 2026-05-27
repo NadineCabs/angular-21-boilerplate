@@ -1,7 +1,7 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { finalize, first } from 'rxjs/operators';
 
-import { AccountService, AlertService } from "@app/_services";
+import { AccountService, AlertService } from '@app/_services';
 
 @Component({ templateUrl: 'list.component.html', standalone: false })
 export class ListComponent implements OnInit, OnDestroy {

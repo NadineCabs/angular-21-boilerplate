@@ -17,10 +17,10 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/angular-15-example",
+            "outputPath": "dist/ipt-2026-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": "src/poly-fills.ts",
+            "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "less",
             "assets": [
@@ -67,15 +67,12 @@
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "buildTarget": "angular-15-example:build:development"
-          },
           "configurations": {
             "production": {
-              "buildTarget": "angular-15-example:build:production"
+              "browserTarget": "angular-15-example:build:production"
             },
             "development": {
-              "buildTarget": "angular-15-example:build:development"
+              "browserTarget": "angular-15-example:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +80,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "angular-15-example:build"
+            "browserTarget": "angular-15-example:build"
           }
         },
         "test": {

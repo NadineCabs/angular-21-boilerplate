@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    apiUrl: 'node-mysql-api-nadine.heroku.com'
+    apiUrl: 'https://ipt-2026-backend-caballero-heruko.onrender.com'
 };
